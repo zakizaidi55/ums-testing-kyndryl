@@ -1,6 +1,29 @@
 const { chromium } = require('playwright');
 
-(async () => {
+async function fillApplicationForm({
+  nationality = 'Indian',
+  currentLocation = 'Mumbai',
+  category = 'General',
+  state = 'Maharashtra',
+  city = 'Mumbai',
+  elective1 = 'MCOM',
+  elective2 = 'Public Accounting',
+  abcId = 'ABC123456',
+  debId = 'DEB123456',
+  nameAsPerDebId = 'John Doe',
+  emailAsPerDebId = 'john@example.com',
+  phoneAsPerDebId = '9876543210',
+  gender = 'Male',
+  dob = '2000-01-01',
+  nameAsPerTenth = 'John Doe',
+  email = 'qatemp1@yopmail.com',
+  phone = '9848901347',
+  altPhone = '9812345678',
+  scholarshipNote = 'Applied via sports quota',
+  physicallyChallenged = true,
+  militaryBackground = false,
+  otherScholarship = false
+}) {
   const browser = await chromium.launch({ headless: false });
   const page = await browser.newPage();
   await page.goto('https://ui.qa.umsglobal.net/#/Login');
@@ -31,48 +54,62 @@ const { chromium } = require('playwright');
     }
   };
 
-  const handleRadio = async (yesSelector, noSelector) => {
-    const yesChecked = await page.locator(yesSelector).isChecked();
-    const noChecked = await page.locator(noSelector).isChecked();
-    if (!yesChecked && !noChecked) {
-      await page.locator(yesSelector).check();
+  const handleRadio = async (yesSelector, noSelector, value) => {
+    const yesRadio = page.locator(yesSelector);
+    const noRadio = page.locator(noSelector);
+
+    if (value === true) {
+      await yesRadio.check();
+    } else if (value === false) {
+      await noRadio.check();
     }
   };
 
   // -- Program Details --
-  await handleDropdown('select[formcontrolname="elective"]', 'MCOM');
-  await handleDropdown('select[formcontrolname="elective"]', 'Public Accounting');
+  await handleDropdown('select[formcontrolname="elective"]', elective1);
+  await handleDropdown('select[formcontrolname="elective"]', elective2);
 
   // -- Residence --
-  await handleDropdown('select[formcontrolname="nationality"]', 'Indian');
-  await handleDropdown('select[formcontrolname="currentLocation"]', 'Mumbai');
+  await handleDropdown('select[formcontrolname="nationality"]', nationality);
+  await handleDropdown('select[formcontrolname="currentLocation"]', currentLocation);
 
   // -- Educational Identities --
-  await handleInput('input[formcontrolname="abcId"]', 'ABC123456');
-  await handleInput('input[formcontrolname="debId"]', 'DEB123456');
+  await handleInput('input[formcontrolname="abcId"]', abcId);
+  await handleInput('input[formcontrolname="debId"]', debId);
 
   // -- Details as per DEB ID --
-  await handleInput('input[formcontrolname="nameAsPerDebId"]', 'John Doe');
-  await handleInput('input[formcontrolname="emailAsPerDebId"]', 'john@example.com');
-  await handleInput('input[formcontrolname="phoneAsPerDebId"]', '9876543210');
-  await handleDropdown('select[formcontrolname="gender"]', 'Male');
-  await handleInput('input[formcontrolname="dob"]', '2000-01-01');
+  await handleInput('input[formcontrolname="nameAsPerDebId"]', nameAsPerDebId);
+  await handleInput('input[formcontrolname="emailAsPerDebId"]', emailAsPerDebId);
+  await handleInput('input[formcontrolname="phoneAsPerDebId"]', phoneAsPerDebId);
+  await handleDropdown('select[formcontrolname="gender"]', gender);
+  await handleInput('input[formcontrolname="dob"]', dob);
 
   // -- Personal Details --
-  await handleInput('input[formcontrolname="nameAsPerTenth"]', 'John Doe');
-  await handleInput('input[formcontrolname="email"]', 'qatemp1@yopmail.com');
-  await handleInput('input[formcontrolname="phone"]', '9848901347');
-  await handleInput('input[formcontrolname="altPhone"]', '9812345678');
-  await handleDropdown('select[formcontrolname="category"]', 'General');
-  await handleDropdown('select[formcontrolname="state"]', 'Maharashtra');
-  await handleInput('input[formcontrolname="city"]', 'Mumbai');
+  await handleInput('input[formcontrolname="nameAsPerTenth"]', nameAsPerTenth);
+  await handleInput('input[formcontrolname="email"]', email);
+  await handleInput('input[formcontrolname="phone"]', phone);
+  await handleInput('input[formcontrolname="altPhone"]', altPhone);
+  await handleDropdown('select[formcontrolname="category"]', category);
+  await handleDropdown('select[formcontrolname="state"]', state);
+  await handleInput('input[formcontrolname="city"]', city);
 
   // -- Scholarship Eligibility --
-  await handleRadio('input#physicallyYes', 'input#physicallyNo');
-  await handleRadio('input#militaryYes', 'input#militaryNo');
-  await handleRadio('input#otherScholarshipYes', 'input#otherScholarshipNo');
-  await handleInput('textarea[formcontrolname="scholarshipNote"]', 'Applied via sports quota');
+  await handleRadio('input#physicallyYes', 'input#physicallyNo', physicallyChallenged);
+  await handleRadio('input#militaryYes', 'input#militaryNo', militaryBackground);
+  await handleRadio('input#otherScholarshipYes', 'input#otherScholarshipNo', otherScholarship);
+  await handleInput('textarea[formcontrolname="scholarshipNote"]', scholarshipNote);
 
   console.log('Form processed successfully.');
   await browser.close();
-})(); 
+}
+
+// Example usage (you can remove this section if you plan to import and use the function elsewhere)
+// (async () => {
+//   await fillApplicationForm({
+//     nationality: 'Indian',
+//     category: 'General',
+//     // ... other values
+//   });
+// })();
+
+module.exports = { fillApplicationForm }; 

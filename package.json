@@ -1,15 +1,30 @@
 {
-  "name": "ums",
+  "name": "playwright",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:widget": "playwright test tests/widget-lead-form.spec.js --headed",
+    "test:widget:debug": "playwright test tests/widget-lead-form.spec.js --debug",
+    "test:chromium": "playwright test --project=chromium",
+    "test:widget:chromium": "playwright test tests/widget-lead-form.spec.js --project=chromium --headed",
+    "test:widget-lead-form:chromium": "playwright test tests/widget-lead-form.spec.js --project=chromium --headed"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "description": "",
   "devDependencies": {
     "@playwright/test": "^1.52.0",
-    "@types/node": "^22.15.18"
+    "@types/node": "^22.15.18",
+    "axios": "^1.9.0",
+    "dotenv": "^16.5.0",
+    "uuid": "^11.1.0"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.8.0"
   }
 }

@@ -1,22 +1,43 @@
 import { test, expect } from '@playwright/test';
-
+const SessionService = require('../services/SessionService');
  
+async function getCrede() {
+  const sessionService = new SessionService()
+  const creds =  await sessionService.getSession();
+  return creds;
+}
+
+test.beforeAll(async (browser) => {
+  const creds = await getCrede();
+  console.log('Creds Testing:====>', creds, creds.UserID, creds.Password);
+
+  const userID = creds.UserID;
+  const changePassword = creds.Password;
+  const password = 'Pass@123';
+
+  // You might want to store these in global or a custom fixture
+  global._userID = userID;
+  global._originalPassword = changePassword;
+  global._newPassword = password;
+});
+
 test.describe("UMS End to end application Tests", async() => {
   test.describe.configure({ retries: 1 });
+
   test.beforeEach(async ({ page, context }, testInfo) => {
       // Start tracing before each test
       await context.tracing.start({ screenshots: true, snapshots: true });
       // Navigate to the KYC page before each test
       await page.goto('https://ui.qa.umsglobal.net/#/login');
   });
- 
   /**
-* Uploads a file using a label locator that contains a hidden input[type="file"],
-* then clicks the first visible "Click to Upload" button on the page.
-* @param {import('@playwright/test').Page} page - The Playwright page object.
-* @param {import('@playwright/test').Locator} labelLocator - Locator for the label containing the input[type="file"].
-* @param {string} filePath - Path to the file to upload.
-*/
+  * Uploads a file using a label locator that contains a hidden input[type="file"],
+  * then clicks the first visible "Click to Upload" button on the page.
+  * @param {import('@playwright/test').Page} page
+  * @param {import('@playwright/test').Locator} labelLocator
+  * @param {string} filePath - Path to the file to upload.
+  */
+  
   async function uploadFileAndClickButton(page, labelLocator, filePath) {
     const fileInput = labelLocator.locator('input[type="file"]');
     await fileInput.setInputFiles(filePath);
@@ -26,15 +47,24 @@ test.describe("UMS End to end application Tests", async() => {
     await uploadButton.click();
   }
  
- 
+  test('Change password', async({page}) => {
+    await (page.getByRole('textbox', { name: 'Email / User name' })).fill(global._userID);
+    await (page.getByRole('textbox', { name: 'Password' })).fill(global._originalPassword);
+    await page.getByRole('button', { name: 'login' }).click();
+
+    await page.getByRole('textbox', { name: 'New Password' }).fill(global._newPassword);
+    await page.getByRole('textbox', { name: 'Confirm password' }).fill(global._newPassword);
+    await page.getByRole('button', { name: 'Re' }).click();
+  });
+
   test('happy flow: fill details, pay registration, and proceed to KYC', async ({ page }) => {
     let paymentPage;
     // Go to personal details page with proper navigation
     await page.waitForLoadState('networkidle');
   
     // Login
-    await page.getByRole('textbox', { name: 'Email / User name' }).fill('sharda0000000929');
-    await page.getByRole('textbox', { name: 'Password' }).fill('User@2001');
+    await page.getByRole('textbox', { name: 'Email / User name' }).fill(global._userID);
+    await page.getByRole('textbox', { name: 'Password' }).fill(global._newPassword);
     await page.getByRole('button', { name: 'login' }).click();
     await page.waitForLoadState('networkidle');
   
@@ -241,8 +271,8 @@ test.describe("UMS End to end application Tests", async() => {
  
    
   test('should select fee preference and complete payment via wallet', async ({ page }) => {
-    await (page.getByRole('textbox', { name: 'Email / User name' })).fill('sharda0000000929');
-    await (page.getByRole('textbox', { name: 'Password' })).fill('User@2001');
+    await (page.getByRole('textbox', { name: 'Email / User name' })).fill(global._userID);
+    await (page.getByRole('textbox', { name: 'Password' })).fill(global._newPassword);
     await page.getByRole('button', { name: 'login' }).click();
 
     // Wait for navigation and network idle
@@ -319,8 +349,8 @@ test.describe("UMS End to end application Tests", async() => {
   });
  
   test('Positive KYC flow', async ({ page }) => {
-    await (page.getByRole('textbox', { name: 'Email / User name' })).fill('sharda0000000929');
-    await (page.getByRole('textbox', { name: 'Password' })).fill('User@2001');
+    await (page.getByRole('textbox', { name: 'Email / User name' })).fill(global._userID);
+    await (page.getByRole('textbox', { name: 'Password' })).fill(global._newPassword);
     await page.getByRole('button', { name: 'login' }).click();
  
  
@@ -369,8 +399,8 @@ test.describe("UMS End to end application Tests", async() => {
   });
  
   test('Validate Happy flow on Education page', async ({ page }) => {
-    await (page.getByRole('textbox', { name: 'Email / User name' })).fill('sharda0000000929');
-    await (page.getByRole('textbox', { name: 'Password' })).fill('User@2001');
+    await (page.getByRole('textbox', { name: 'Email / User name' })).fill(global._userID);
+    await (page.getByRole('textbox', { name: 'Password' })).fill(global._newPassword);
     await page.getByRole('button', { name: 'login' }).click();
     
  
@@ -409,8 +439,8 @@ test.describe("UMS End to end application Tests", async() => {
   });
  
   test('Positive flow submission on Upload document page', async ({ page }) => {
-    await (page.getByRole('textbox', { name: 'Email / User name' })).fill('sharda0000000929');
-    await (page.getByRole('textbox', { name: 'Password' })).fill('User@2001');
+    await (page.getByRole('textbox', { name: 'Email / User name' })).fill(global._userID);
+    await (page.getByRole('textbox', { name: 'Password' })).fill(global._newPassword);
     await page.getByRole('button', { name: 'login' }).click();
     
  
@@ -483,8 +513,8 @@ test.describe("UMS End to end application Tests", async() => {
   });
  
   test('should handle agreement checkbox and submit button correctly', async ({ page }) => {
-    await (page.getByRole('textbox', { name: 'Email / User name' })).fill('sharda0000000924');
-    await (page.getByRole('textbox', { name: 'Password' })).fill('User@2002');
+    await (page.getByRole('textbox', { name: 'Email / User name' })).fill(global._userID);
+    await (page.getByRole('textbox', { name: 'Password' })).fill(global._newPassword);
     await page.getByRole('button', { name: 'login' }).click();
     // Wait for the page to load
     await page.waitForLoadState('networkidle');
@@ -508,18 +538,5 @@ test.describe("UMS End to end application Tests", async() => {
  
   });
 
-  test('Change password', async({page}) => {
-    await (page.getByRole('textbox', { name: 'Email / User name' })).fill('sharda0000000924');
-    await (page.getByRole('textbox', { name: 'Password' })).fill('User@2001');
-    await page.getByRole('button', { name: 'login' }).click();
-
-    await page.getByTestId('PersonIcon').locator('path').click();
-    await page.getByRole('button', { name: 'Change Password' }).click();
-    await page.getByRole('textbox', { name: 'Old password' }).fill('User@2001');
-    await page.getByRole('textbox', { name: 'New password' }).fill('User@2002');
-    await page.getByRole('textbox', { name: 'Confirm password' }).fill('User@2002');
-    await page.getByRole('button', { name: 'Change password' }).click();
-    await page.getByRole('button', { name: 'Home' }).click();
-  });
 });
  
