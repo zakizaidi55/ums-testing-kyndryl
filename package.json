@@ -1,6 +1,7 @@
 {
-  "name": "ums",
+  "name": "playwright",
   "version": "1.0.0",
+<<<<<<< HEAD
   "description": "UMS Test Automation with POM Structure",
   "main": "index.js",
   "scripts": {
@@ -41,16 +42,41 @@
     "pom",
     "ums"
   ],
+=======
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:widget": "playwright test tests/widget-lead-form.spec.js --headed",
+    "test:widget:debug": "playwright test tests/widget-lead-form.spec.js --debug",
+    "test:chromium": "playwright test --project=chromium",
+    "test:widget:chromium": "playwright test tests/widget-lead-form.spec.js --project=chromium --headed",
+    "test:widget-lead-form:chromium": "playwright test tests/widget-lead-form.spec.js --project=chromium --headed"
+  },
+  "keywords": [],
+>>>>>>> 6fc6f92cfcf6eb69c6f6297890a265b63416dc14
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "description": "",
   "devDependencies": {
     "@playwright/test": "^1.52.0",
+<<<<<<< HEAD
     "@types/node": "^22.15.18"
   },
   "dependencies": {
     "@faker-js/faker": "^9.8.0",
     "axios": "^1.9.0",
     "uuid": "^11.1.0"
+=======
+    "@types/node": "^22.15.18",
+    "axios": "^1.9.0",
+    "dotenv": "^16.5.0",
+    "uuid": "^11.1.0"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.8.0"
+>>>>>>> 6fc6f92cfcf6eb69c6f6297890a265b63416dc14
   }
 }

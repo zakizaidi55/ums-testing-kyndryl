@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 const axios = require('axios');
+=======
+
+const { default: axios } = require('axios');
+>>>>>>> 6fc6f92cfcf6eb69c6f6297890a265b63416dc14
 const { v4: uuidv4 } = require('uuid');
 
 const MAIL_TM_BASE = 'https://api.mail.tm';
@@ -28,7 +33,11 @@ class EmailService {
       const password = 'Password123!';
 
       console.log('Creating account...');
+<<<<<<< HEAD
       await axios.post(`${this.baseUrl}/accounts`, {
+=======
+      await axios.post (`${this.baseUrl}/accounts`, {
+>>>>>>> 6fc6f92cfcf6eb69c6f6297890a265b63416dc14
         address: email,
         password,
       }, {

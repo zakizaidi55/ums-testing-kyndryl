@@ -4,6 +4,7 @@ const { faker } = require('@faker-js/faker');
 class WidgetPage extends BasePage {
   constructor(page) {
     super(page);
+<<<<<<< HEAD
     this.widgetURL = this.envConfig.getWidgetURL();
   }
 
@@ -11,6 +12,13 @@ class WidgetPage extends BasePage {
     // Navigate directly to widget URL (don't use BasePage navigate as it concatenates with baseURL)
     await this.page.goto(this.widgetURL);
     await this.page.waitForLoadState('networkidle');
+=======
+    this.url = 'https://landing.qa.umsglobal.net/';
+  }
+
+  async navigate() {
+    await this.page.goto(this.url);
+>>>>>>> 6fc6f92cfcf6eb69c6f6297890a265b63416dc14
   }
 
   async openWidget() {
@@ -39,7 +47,11 @@ class WidgetPage extends BasePage {
     await frame.getByRole('button', { name: /verify/i }).click();
     
     // Wait for verification to complete
+<<<<<<< HEAD
     // await frame.waitForSelector('input[formcontrolname="name"]', { state: 'visible' });
+=======
+   // await frame.waitForSelector('input[formcontrolname="name"]', { state: 'visible' });
+>>>>>>> 6fc6f92cfcf6eb69c6f6297890a265b63416dc14
   }
 
   async fillRemainingDetails(frame) {
@@ -64,7 +76,11 @@ class WidgetPage extends BasePage {
     await frame.getByRole('option').first().click();
 
     // Select City
+<<<<<<< HEAD
     // await frame.locator('//div[@id="mat-select-value-11"]').waitFor({ state: 'visible' });
+=======
+   // await frame.locator('//div[@id="mat-select-value-11"]').waitFor({ state: 'visible' });
+>>>>>>> 6fc6f92cfcf6eb69c6f6297890a265b63416dc14
     await frame.locator('//div[@id="mat-select-value-11"]').click();
     await frame.locator('mat-option').first().click();
 
@@ -74,6 +90,7 @@ class WidgetPage extends BasePage {
 
   async submitApplication(frame) {
     const applyNowBtn = frame.getByRole('button', { name: /apply now/i });
+<<<<<<< HEAD
     // await applyNowBtn.waitFor({ state: 'enabled' });
     await applyNowBtn.click();
   }
@@ -122,6 +139,20 @@ class WidgetPage extends BasePage {
       console.log('Error generating random phone:', error);
       return "9012345678";
     }
+=======
+    //await applyNowBtn.waitFor({ state: 'enabled' });
+    await applyNowBtn.click();
+  }
+
+  getRandomName() {
+    let rawName = "test" + faker.person.fullName().replace(/[^a-zA-Z\s]/g, '');
+    return rawName.trim();
+  }
+
+  getRandomPhone() {
+    let rawPhone = faker.phone.number().replace(/^.{2}/, "90").replace(/\D/g, '');
+    return rawPhone.trim();
+>>>>>>> 6fc6f92cfcf6eb69c6f6297890a265b63416dc14
   }
 }
 
