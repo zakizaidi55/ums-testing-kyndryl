@@ -1,3 +1,0 @@
-open https://ui.qa.umsglobal.net/#/Login 
-Login using username: sharda0000000890 and password : User@2001
-After login update all the information and close the browser.

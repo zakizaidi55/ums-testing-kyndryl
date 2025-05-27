@@ -1,15 +1,56 @@
 {
   "name": "ums",
   "version": "1.0.0",
-  "description": "",
+  "description": "UMS Test Automation with POM Structure",
   "main": "index.js",
-  "scripts": {},
-  "keywords": [],
+  "scripts": {
+    "test": "npx playwright test",
+    "test:dev": "TEST_ENV=dev npx playwright test",
+    "test:qa": "TEST_ENV=qa npx playwright test",
+    "test:uat": "TEST_ENV=uat npx playwright test",
+    "test:pom": "npx playwright test tests/ums-e2e-pom.spec.js",
+    "test:pom:dev": "TEST_ENV=dev npx playwright test tests/ums-e2e-pom.spec.js",
+    "test:pom:qa": "TEST_ENV=qa npx playwright test tests/ums-e2e-pom.spec.js",
+    "test:pom:uat": "TEST_ENV=uat npx playwright test tests/ums-e2e-pom.spec.js",
+    "test:pom:chromium": "npx playwright test tests/ums-e2e-pom.spec.js --project=chromium",
+    "test:pom:chromium:dev": "TEST_ENV=dev npx playwright test tests/ums-e2e-pom.spec.js --project=chromium",
+    "test:pom:chromium:qa": "TEST_ENV=qa npx playwright test tests/ums-e2e-pom.spec.js --project=chromium",
+    "test:pom:chromium:uat": "TEST_ENV=uat npx playwright test tests/ums-e2e-pom.spec.js --project=chromium",
+    "test:widget": "npx playwright test tests/ums-e2e-pom.spec.js -g \"Widget Lead Form Test\"",
+    "test:widget:dev": "TEST_ENV=dev npx playwright test tests/ums-e2e-pom.spec.js -g \"Widget Lead Form Test\"",
+    "test:widget:qa": "TEST_ENV=qa npx playwright test tests/ums-e2e-pom.spec.js -g \"Widget Lead Form Test\"",
+    "test:widget:uat": "TEST_ENV=uat npx playwright test tests/ums-e2e-pom.spec.js -g \"Widget Lead Form Test\"",
+    "test:widget:chromium": "npx playwright test tests/ums-e2e-pom.spec.js -g \"Widget Lead Form Test\" --project=chromium",
+    "test:widget-setup": "npx playwright test tests/ums-e2e-pom.spec.js -g \"Widget Lead Form Test|Change password\"",
+    "test:widget-setup:dev": "TEST_ENV=dev npx playwright test tests/ums-e2e-pom.spec.js -g \"Widget Lead Form Test|Change password\"",
+    "test:widget-setup:qa": "TEST_ENV=qa npx playwright test tests/ums-e2e-pom.spec.js -g \"Widget Lead Form Test|Change password\"",
+    "test:widget-setup:uat": "TEST_ENV=uat npx playwright test tests/ums-e2e-pom.spec.js -g \"Widget Lead Form Test|Change password\"",
+    "test:widget-setup:chromium": "npx playwright test tests/ums-e2e-pom.spec.js -g \"Widget Lead Form Test|Change password\" --project=chromium",
+    "test:original": "npx playwright test tests/ums-e2e.spec.js",
+    "test:headless": "npx playwright test --headed=false",
+    "test:headed": "npx playwright test --headed=true",
+    "test:debug": "DEBUG=pw:api npx playwright test",
+    "test:ui": "npx playwright test --ui",
+    "report": "npx playwright show-report",
+    "install:browsers": "npx playwright install"
+  },
+  "keywords": [
+    "playwright",
+    "automation",
+    "testing",
+    "pom",
+    "ums"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
     "@playwright/test": "^1.52.0",
     "@types/node": "^22.15.18"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.8.0",
+    "axios": "^1.9.0",
+    "uuid": "^11.1.0"
   }
 }

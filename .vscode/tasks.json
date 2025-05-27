@@ -1,0 +1,238 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Widget Test (Chromium QA)",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "test:widget:chromium"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/UMS",
+        "env": {
+          "TEST_ENV": "qa"
+        }
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Widget Test (Chromium UAT)",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "test:widget:chromium"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/UMS",
+        "env": {
+          "TEST_ENV": "uat"
+        }
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Widget Test (Chromium DEV)",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "test:widget:chromium"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/UMS",
+        "env": {
+          "TEST_ENV": "dev"
+        }
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run All POM Tests (Chromium QA)",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "test:pom:chromium:qa"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/UMS"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run All POM Tests (Chromium UAT)",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "test:pom:chromium:uat"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/UMS"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run All POM Tests (Chromium DEV)",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "test:pom:chromium:dev"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/UMS"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Widget + Change Password Setup",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "test:widget-setup:chromium"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/UMS",
+        "env": {
+          "TEST_ENV": "qa"
+        }
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Tests in Debug Mode",
+      "type": "shell",
+      "command": "npx",
+      "args": ["playwright", "test", "--debug"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/UMS",
+        "env": {
+          "TEST_ENV": "qa"
+        }
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Open Playwright UI Mode",
+      "type": "shell",
+      "command": "npx",
+      "args": ["playwright", "test", "--ui"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/UMS",
+        "env": {
+          "TEST_ENV": "qa"
+        }
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Show Test Report",
+      "type": "shell",
+      "command": "npx",
+      "args": ["playwright", "show-report"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/UMS"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Current Test File",
+      "type": "shell",
+      "command": "npx",
+      "args": ["playwright", "test", "${relativeFile}", "--project=chromium"],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/UMS",
+        "env": {
+          "TEST_ENV": "qa"
+        }
+      },
+      "problemMatcher": [],
+      "detail": "Run the currently open test file with Playwright"
+    },
+    {
+      "label": "Debug Current Test File",
+      "type": "shell",
+      "command": "npx",
+      "args": ["playwright", "test", "${relativeFile}", "--project=chromium", "--debug"],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/UMS",
+        "env": {
+          "TEST_ENV": "qa"
+        }
+      },
+      "problemMatcher": [],
+      "detail": "Debug the currently open test file with Playwright"
+    }
+  ]
+} 

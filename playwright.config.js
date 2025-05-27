@@ -1,5 +1,6 @@
 // @ts-check
-import { defineConfig, devices } from '@playwright/test';
+const { defineConfig, devices } = require('@playwright/test');
+const EnvironmentConfig = require('./config/environment');
 
 /**
  * Read environment variables from file.
@@ -9,73 +10,84 @@ import { defineConfig, devices } from '@playwright/test';
 // import path from 'path';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
 
+// Initialize environment configuration
+const envConfig = new EnvironmentConfig();
+
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
-export default defineConfig({
+module.exports = defineConfig({
   testDir: './tests',
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  retries: envConfig.getRetries(), // Use environment-specific retries
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['html'],
+    ['list', { printSteps: true }] // Add list reporter to see retry attempts
+  ],
+  timeout: envConfig.getTimeout(), // Use environment-specific timeout
+  //globalSetup: require.resolve('./global-setup'),
+
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    /* Run tests in headless or headed mode */
+    headless: false,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
-
+    baseURL: envConfig.getBaseURL(), // Use environment-specific base URL
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure', // Changed to retain traces for failed tests
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure', // Changed to retain videos for failed tests
+    viewport: { width: 1280, height: 720 },
+    launchOptions: {
+      args: ['--no-sandbox', '--start-maximized'],
+      slowMo: 500,  // Increased delay between actions to 500ms
+    },
+  //  storageState: 'state.json',
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        ...devices['Desktop Chrome'],
+        headless: false,
+        launchOptions: {
+          args: ['--no-sandbox', '--start-maximized'],
+          slowMo: 500,  // Increased delay between actions to 500ms
+        },
+      },
     },
-
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-
-    /* Test against mobile viewports. */
+    // Commented out other browsers to run only on Chromium
     // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
+    //   name: 'firefox',
+    //   use: { 
+    //     ...devices['Desktop Firefox'],
+    //     headless: false,
+    //     launchOptions: {
+    //       args: ['--no-sandbox', '--start-maximized'],
+    //       slowMo: 500,  // Increased delay between actions to 500ms
+    //     },
+    //   },
     // },
     // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
+    //   name: 'webkit',
+    //   use: { 
+    //     ...devices['Desktop Safari'],
+    //     headless: false,
+    //     launchOptions: {
+    //       args: ['--no-sandbox', '--start-maximized'],
+    //       slowMo: 500,  // Increased delay between actions to 500ms
+    //     },
+    //   },
     // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
-  ],
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  ]
 });
 

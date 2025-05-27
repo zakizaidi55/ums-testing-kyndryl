@@ -1,0 +1,60 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Widget Test",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/UMS/node_modules/.bin/playwright",
+      "args": [
+        "test",
+        "tests/ums-e2e-pom.spec.js",
+        "-g",
+        "Widget Lead Form Test",
+        "--project=chromium",
+        "--debug"
+      ],
+      "cwd": "${workspaceFolder}/UMS",
+      "env": {
+        "TEST_ENV": "qa"
+      },
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "name": "Debug All POM Tests",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/UMS/node_modules/.bin/playwright",
+      "args": [
+        "test",
+        "tests/ums-e2e-pom.spec.js",
+        "--project=chromium",
+        "--debug"
+      ],
+      "cwd": "${workspaceFolder}/UMS",
+      "env": {
+        "TEST_ENV": "qa"
+      },
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "name": "Debug Specific Test",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/UMS/node_modules/.bin/playwright",
+      "args": [
+        "test",
+        "${file}",
+        "--debug"
+      ],
+      "cwd": "${workspaceFolder}/UMS",
+      "env": {
+        "TEST_ENV": "qa"
+      },
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+} 
