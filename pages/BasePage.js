@@ -1,13 +1,8 @@
-<<<<<<< HEAD
 const EnvironmentConfig = require('../config/environment');
-=======
-const { expect } = require('@playwright/test');
->>>>>>> 6fc6f92cfcf6eb69c6f6297890a265b63416dc14
 
 class BasePage {
   constructor(page) {
     this.page = page;
-<<<<<<< HEAD
     this.envConfig = new EnvironmentConfig();
   }
 
@@ -84,32 +79,11 @@ class BasePage {
     if (!isChecked) {
       await checkboxLocator.check();
     }
-=======
-  }
-
-  async waitForLoadState() {
-    await this.page.waitForLoadState('networkidle');
-  }
-
-  async clickButton(name) {
-    await this.page.getByRole('button', { name }).click();
-  }
-
-  async fillInput(name, value) {
-    await this.page.getByRole('textbox', { name, exact: true}).fill(value);
-  }
-
-  async selectDropdown(name, option) {
-    const dropdown = this.page.getByRole('combobox', { name , exact: true});
-    await dropdown.click();
-    await this.page.getByRole('option', { name: option, exact: true }).click();
->>>>>>> 6fc6f92cfcf6eb69c6f6297890a265b63416dc14
   }
 
   async uploadFile(labelLocator, filePath) {
     const fileInput = labelLocator.locator('input[type="file"]');
     await fileInput.setInputFiles(filePath);
-<<<<<<< HEAD
     
     const uploadButton = this.page.getByRole('button', { name: 'Click to Upload' }).first();
     await this.waitForElement(uploadButton);
@@ -158,12 +132,6 @@ class BasePage {
   async reloadPage() {
     await this.page.reload({ waitUntil: 'domcontentloaded' });
   }
-=======
-    const uploadButton = this.page.getByRole('button', { name: 'Click to Upload' }).first();
-    await uploadButton.waitFor({ state: 'visible' });
-    await uploadButton.click();
-  }
->>>>>>> 6fc6f92cfcf6eb69c6f6297890a265b63416dc14
 }
 
 module.exports = BasePage; 
